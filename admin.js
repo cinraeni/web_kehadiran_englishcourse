@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <div><strong>${record.name}</strong> <span style="font-size:0.85rem; color:var(--text-muted);">(${record.nip} - ${record.jabatan})</span></div>
                                     <div style="font-size:0.85rem; color: #4b5563;">Masuk: <b>${record.jamMasuk}</b> | Pulang: <b>${record.jamPulang}</b></div>
                                     <div style="margin-top: 0.4rem;">
-                                        <button class="btn-small btn-detail" data-date="${dateStr}" data-id="${record.id}" style="font-size: 0.75rem; padding: 0.3rem 0.6rem; background-color: transparent; border: 1px solid #818cf8; color: #818cf8; border-radius: 4px; cursor: pointer;">Detail Presensi</button>
+                                        <button class="btn-small btn-detail" data-date="${dateStr}" data-id="${record.id}" style="font-size: 0.75rem; padding: 0.3rem 0.6rem; background-color: transparent; border: 1px solid #818cf8; color: #818cf8; border-radius: 4px; cursor: pointer;">Detail</button>
                                     </div>
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 1rem;">
@@ -292,48 +292,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function exportToExcel() {
-        let tableHTML = `
-            <table border="1">
-                <tr>
-                    <th style="background-color: #4CAF50; color: white;">Tanggal</th>
-                    <th style="background-color: #4CAF50; color: white;">Nama</th>
-                    <th style="background-color: #4CAF50; color: white;">NIP</th>
-                    <th style="background-color: #4CAF50; color: white;">Jabatan</th>
-                    <th style="background-color: #4CAF50; color: white;">Organisasi Perangkat Daerah</th>
-                    <th style="background-color: #4CAF50; color: white;">Email</th>
-                    <th style="background-color: #4CAF50; color: white;">No. HP</th>
-                    <th style="background-color: #4CAF50; color: white;">Jam Masuk</th>
-                    <th style="background-color: #4CAF50; color: white;">Jam Pulang</th>
-                </tr>
-        `;
+        let csvContent = "Tanggal;Nama;NIP;Jabatan;Organisasi Perangkat Daerah;Email;No. HP;Jam Masuk;Jam Pulang\n";
         
         dates.forEach(dateStr => {
             const records = data[dateStr];
             records.forEach(record => {
-                tableHTML += `
-                    <tr>
-                        <td>${dateStr}</td>
-                        <td>${record.name}</td>
-                        <td>${record.nip}</td>
-                        <td>${record.jabatan}</td>
-                        <td>${record.opd}</td>
-                        <td>${record.email}</td>
-                        <td>${record.noHp}</td>
-                        <td>${record.jamMasuk}</td>
-                        <td>${record.jamPulang}</td>
-                    </tr>
-                `;
+                const row = [
+                    dateStr,
+                    record.name,
+                    record.nip,
+                    record.jabatan,
+                    record.opd,
+                    record.email,
+                    record.noHp,
+                    record.jamMasuk,
+                    record.jamPulang
+                ].map(val => `="${String(val).replace(/"/g, '""')}"`).join(";");
+                
+                csvContent += row + "\n";
             });
         });
 
-        tableHTML += "</table>";
-
-        // Gunakan Blob untuk mendownload sebagai .xls yang dikenali Excel sebagai tabel
-        const blob = new Blob([tableHTML], { type: 'application/vnd.ms-excel' });
+        // Tambahkan BOM agar karakter terbaca benar di Excel (UTF-8)
+        const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.setAttribute("href", url);
-        link.setAttribute("download", "Laporan_Presensi_Lengkap.xls");
+        link.setAttribute("download", "Laporan_Presensi_Lengkap.csv");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

@@ -12,16 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Format Tanggal
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    dateDisplay.textContent = currentDate.toLocaleDateString('id-ID', options);
+    if (dateDisplay) {
+        dateDisplay.textContent = `Hari ini, ${currentDate.toLocaleDateString('id-ID', options)}`;
+    }
 
     // Cek apakah hari ini Senin-Jumat
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
-    if (isWeekend) {
-        // Nonaktifkan form jika akhir pekan
-        showAlert('Presensi hanya dibuka pada hari kerja (Senin - Jumat).', 'error');
-        disableForm();
-    }
+    // Batasan weekend dihapus sesuai permintaan
+
 
     // --- BAGIAN TANDA TANGAN ---
     const canvas = document.getElementById('signature-pad');
@@ -35,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startDrawing(e) {
         isDrawing = true;
+        ctx.beginPath();
         draw(e);
     }
 
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         e.preventDefault();
         
-        let clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
         
         const rect = canvas.getBoundingClientRect();
         
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function processAttendance(type) {
-        if (isWeekend) return;
+        // Batasan weekend dihapus
         
         // Pastikan form sudah diisi semua (validasi bawaan HTML5)
         if (!form.reportValidity()) return;
@@ -124,9 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const noHp = document.getElementById('nohp').value.trim();
         const status = 'Hadir';
         
-        // Ambil waktu sekarang persis saat tombol diklik biar tanggalnya akurat
-        const tzoffset = (new Date()).getTimezoneOffset() * 60000; 
-        const realTanggal = (new Date(Date.now() - tzoffset)).toISOString().split('T')[0];
+        // Gunakan tanggal yang dipilih dari form
+        const realTanggal = document.getElementById('tanggal').value;
 
         if (!name || !nip || !jabatan || !opd || !email || !noHp) {
             showAlert('Silakan lengkapi semua data profil.', 'error');

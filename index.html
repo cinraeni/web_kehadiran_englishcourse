@@ -13,10 +13,12 @@
     <div class="container">
         <header>
             <h2>Presensi Kehadiran Peserta Pelatihan Bahasa Inggris Bagi ASN Pemerintah Kota Batam</h2>
-            <p id="current-date" class="date-display">Memuat tanggal...</p>
+            <h3 style="font-weight: 500; margin-top: 10px; font-size: 1.25rem;">21 September - 2 Oktober 2026</h3>
+            <p id="current-date" class="date-display" style="margin-top: 10px;"></p>
         </header>
 
         <main>
+
             <form id="attendance-form" class="glass-panel">
                 <div class="form-group">
                     <label for="employee-name">Nama</label>
@@ -42,13 +44,11 @@
                         style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border); font-family: inherit; background-color: #ffffff;">
                         <option value="" disabled selected>Pilih Organisasi Perangkat Daerah</option>
                         <option value="Inspektorat Kota Batam">Inspektorat Kota Batam</option>
-                        <option value="Badan Perencanaan Pembangunan Derah Kota Batam">Badan Perencanaan Pembangunan Derah Kota Batam</option>
                         <option value="Badan Pendapatan Daerah Kota Batam">Badan Pendapatan Daerah Kota Batam</option>
                         <option value="Badan Kepegawaian dan Sumber Daya Manusia Kota Batam">Badan Kepegawaian dan Sumber Daya Manusia Kota Batam</option>
                         <option value="Dinas Bina Marga dan Sumber Daya Air Kota Batam">Dinas Bina Marga dan Sumber Daya Air Kota Batam</option>
                         <option value="Dinas Cipta Karya dan Tata Ruang Kota Batam">Dinas Cipta Karya dan Tata Ruang Kota Batam</option>
                         <option value="Dinas Kebudayaan dan Pariwisata Kota Batam">Dinas Kebudayaan dan Pariwisata Kota Batam</option>
-                        <option value="Dinas Kepemudaan dan Olah Raga Kota Batam">Dinas Kepemudaan dan Olah Raga Kota Batam</option>
                         <option value="Dinas Kependudukan dan Pencatatan Sipil Kota Batam">Dinas Kependudukan dan Pencatatan Sipil Kota Batam</option>
                         <option value="Dinas Kesehatan Kota Batam">Dinas Kesehatan Kota Batam</option>
                         <option value="Dinas Komunikasi dan Informatika Kota Batam">Dinas Komunikasi dan Informatika Kota Batam</option>
@@ -60,14 +60,16 @@
                         <option value="Dinas Perumahan Rakyat dan Kawasan Pemukiman Kota Batam">Dinas Perumahan Rakyat dan Kawasan Pemukiman Kota Batam</option>
                         <option value="Dinas Tenaga Kerja Kota Batam">Dinas Tenaga Kerja Kota Batam</option>
                         <option value="Dinas Perikanan Kota Batam">Dinas Perikanan Kota Batam</option>
+                        <option value="Dinas Kepemudaan dan Olahraga Kota Batam">Dinas Kepemudaan dan Olahraga Kota Batam</option>
+                        <option value="Satpol PP">Satpol PP</option>
                         <option value="Kecamatan Batu Aji">Kecamatan Batu Aji</option>
                         <option value="Kecamatan Bengkong">Kecamatan Bengkong</option>
                         <option value="Kecamatan Sei Beduk">Kecamatan Sei Beduk</option>
                         <option value="Kecamatan Nongsa">Kecamatan Nongsa</option>
                         <option value="Kecamatan Sekupang">Kecamatan Sekupang</option>
                         <option value="Kecamatan Sagulung">Kecamatan Sagulung</option>
+                        <option value="Bagian Umum Setdako Batam">Bagian Umum Setdako Batam</option>
                         <option value="Bagian Perencanaan dan Keuangan Sekretariat Daerah Kota Batam">Bagian Perencanaan dan Keuangan Sekretariat Daerah Kota Batam</option>
-                        <option value="Bagian Protokol Sekretariat Daerah Kota Batam">Bagian Protokol Sekretariat Daerah Kota Batam</option>
                         <option value="Bagian Administrasi Pembangunan Sekretariat Daerah Kota Batam">Bagian Administrasi Pembangunan Sekretariat Daerah Kota Batam</option>
                         <option value="Bagian Perekonomian Sekretariat Daerah Kota Batam">Bagian Perekonomian Sekretariat Daerah Kota Batam</option>
                         <option value="Bagian Kesejahteraan Rakyat Sekretariat Daerah Kota Batam">Bagian Kesejahteraan Rakyat Sekretariat Daerah Kota Batam</option>
@@ -88,8 +90,8 @@
 
                 <div class="form-group">
                     <label for="tanggal">Tanggal Presensi</label>
-                    <input type="date" id="tanggal" name="tanggal" required readonly
-                        style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border); font-family: inherit; margin-top: 0.5rem; background-color: #f3f4f6; color: #6b7280; cursor: not-allowed;">
+                    <input type="date" id="tanggal" name="tanggal" required
+                        style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border); font-family: inherit; margin-top: 0.5rem; background-color: #ffffff;">
                 </div>
 
 
@@ -116,7 +118,7 @@
         </main>
     </div>
 
-    <script type="module" src="script.js?v=3"></script>
+    <script type="module" src="script.js?v=4"></script>
 </body>
 
 </html>
