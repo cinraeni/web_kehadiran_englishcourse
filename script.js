@@ -10,11 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentDate = new Date();
     const dayOfWeek = currentDate.getDay(); // 0 = Minggu, 1 = Senin, dst
     
-    // Format Tanggal
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    if (dateDisplay) {
-        dateDisplay.textContent = `Hari ini, ${currentDate.toLocaleDateString('id-ID', options)}`;
-    }
+    // Format Tanggal dihapus
 
     // Cek apakah hari ini Senin-Jumat
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
@@ -28,14 +24,47 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDrawing = false;
     let signatureEmpty = true;
 
-    // Kasih background putih biar pas disimpan gambarnya nggak transparan/hitam
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Resize canvas agar resolusi internal = ukuran tampilan (fix touch/mouse offset)
+    function resizeCanvas() {
+        const wrapper = canvas.parentElement;
+        const displayWidth = wrapper.clientWidth - 16; // kurangi padding
+        const displayHeight = 150;
+        
+        // Set CSS display size
+        canvas.style.width = displayWidth + 'px';
+        canvas.style.height = displayHeight + 'px';
+        
+        // Set internal resolution = display size (ratio 1:1, no scaling needed)
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = displayWidth * dpr;
+        canvas.height = displayHeight * dpr;
+        ctx.scale(dpr, dpr);
+
+        // Background putih
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        signatureEmpty = true;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    function getPointerPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+        return {
+            x: clientX - rect.left,
+            y: clientY - rect.top
+        };
+    }
 
     function startDrawing(e) {
+        e.preventDefault();
         isDrawing = true;
+        const pos = getPointerPos(e);
         ctx.beginPath();
-        draw(e);
+        ctx.moveTo(pos.x, pos.y);
     }
 
     function stopDrawing() {
@@ -45,30 +74,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function draw(e) {
         if (!isDrawing) return;
-
         e.preventDefault();
-        
-        let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-        
-        const rect = canvas.getBoundingClientRect();
-        
-        // Sesuaikan koordinat kalau ukuran canvas berubah di CSS
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
 
-        const x = (clientX - rect.left) * scaleX;
-        const y = (clientY - rect.top) * scaleY;
+        const pos = getPointerPos(e);
 
         ctx.lineWidth = 3;
         ctx.lineCap = "round";
+        ctx.lineJoin = "round";
         ctx.strokeStyle = "#1e3a8a"; // Biru tua
 
-        ctx.lineTo(x, y);
+        ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
         ctx.beginPath();
-        ctx.moveTo(x, y);
-        
+        ctx.moveTo(pos.x, pos.y);
+
         signatureEmpty = false;
     }
 
@@ -78,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseout', stopDrawing);
 
-    // Touch events
+    // Touch events — passive: false agar preventDefault() bisa jalan (cegah scroll saat menggambar)
     canvas.addEventListener('touchstart', startDrawing, { passive: false });
     canvas.addEventListener('touchmove', draw, { passive: false });
     canvas.addEventListener('touchend', stopDrawing);

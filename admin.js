@@ -185,6 +185,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Status color handling removed
                 
                 detailContent.innerHTML = `
+                    <div style="margin-bottom: 0.8rem; background: var(--glass-bg); padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--glass-border); text-align: center;">
+                        <span style="display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem;">Tanggal Absen</span>
+                        <div style="color: var(--text-main); font-size: 1.05rem; font-weight: 600;">${dateStr}</div>
+                    </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
                         <div style="background: var(--glass-bg); padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--glass-border);">
                             <span style="display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem;">Nama Lengkap</span>

@@ -14,7 +14,7 @@
         <header>
             <h2>Presensi Kehadiran Peserta Pelatihan Bahasa Inggris Bagi ASN Pemerintah Kota Batam</h2>
             <h3 style="font-weight: 500; margin-top: 10px; font-size: 1.25rem;">21 September - 2 Oktober 2026</h3>
-            <p id="current-date" class="date-display" style="margin-top: 10px;"></p>
+
         </header>
 
         <main>
@@ -88,14 +88,20 @@
                         style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border); font-family: inherit; background-color: #ffffff;">
                 </div>
 
+                <div class="form-group">
+                    <label for="tanggal">Tanggal Presensi</label>
+                    <input type="date" id="tanggal" name="tanggal" required
+                        style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border); font-family: inherit; margin-top: 0.5rem; background-color: #ffffff;">
+                </div>
+
 
 
                 <div class="form-group">
                     <label>Tanda Tangan</label>
                     <div class="signature-wrapper"
                         style="border: 2px dashed var(--glass-border); border-radius: 8px; background: #ffffff; padding: 0.5rem; text-align: center;">
-                        <canvas id="signature-pad" width="400" height="150"
-                            style="width: 100%; max-width: 400px; touch-action: none; cursor: crosshair;"></canvas>
+                        <canvas id="signature-pad"
+                            style="display: block; touch-action: none; cursor: crosshair;"></canvas>
                     </div>
                     <button type="button" id="btn-clear-signature" class="secondary-btn"
                         style="width: 100%; margin-top: 0.5rem; padding: 0.5rem; font-size: 0.9rem;">Hapus Tanda
